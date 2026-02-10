@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/Benchmarks/">
+    <Project Path="Chd.Mapping.Bechmark/Chd.Mapping.Bechmark.csproj" />
+  </Folder>
+</Solution>
