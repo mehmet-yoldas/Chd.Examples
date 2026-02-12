@@ -22,6 +22,7 @@ public class MappingBenchmark
         }
     }
 
+
     [GlobalSetup]
     public void Setup()
     {
