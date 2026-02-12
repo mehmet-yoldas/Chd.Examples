@@ -154,20 +154,30 @@ için kritiktir.
 
 ## ✅ Ne Zaman Hangisi?
 
-### AutoMapper mantıklıysa:
+### AutoMapper'in daha mantıklı olduğu senaryolar
 
-* Admin panel
-* CRUD ağırlıklı uygulama
-* Performans kritik değilse
-* Takım AutoMapper’a alışkınsa
+- Dinamik mapping senaryoları varsa
+- Mapping kuralları sık değişiyorsa
+- Convention-based yaklaşım tercih ediliyorsa
+- Takım AutoMapper ekosistemine hâkimse
+- Performans kritik bir gereksinim değilse
 
-### CHD Mapping mantıklıysa:
+> Esneklik öncelikliyse AutoMapper hâlâ güçlü bir araçtır.
 
-* High‑throughput API
-* Event processing
-* Streaming / batch job
-* Low‑latency hedefi varsa
-* Mapping logic net ve stabilse
+---
+
+### CHD Mapping daha mantıklı  olduğu senaryolar
+
+- CRUD ağırlıklı uygulamalar
+- Mapping noktaları sabit ve öngörülebilir ise
+- Mapping işlemi uygulamanın en sık çalışan akışında yer alıyorsa
+- Runtime sürprizi istenmiyorsa
+- Mapping hatalarının compile-time’da yakalanması isteniyorsa
+- Okunabilir, debug edilebilir düz C# kodu tercih ediliyorsa
+
+> Deterministik davranış ve düşük runtime maliyeti hedefleniyorsa  
+> compile-time mapping net bir avantaj sağlar.
+
 
 ---
 
@@ -175,7 +185,9 @@ için kritiktir.
 
 Bu benchmark’ın iddiası şudur:
 
-> **Mapping kodu compile‑time’da üretilebiliyorsa, runtime’da üretmenin bir maliyeti vardır.**
+> ** Mapping kodu derleme aşamasında (compile-time) üretilebilir, bunu uygulama çalışırken (runtime) üretmeye çalışmak kaçınılmaz olarak ek maliyet oluşturur.
+Runtime mapping; reflection, expression tree oluşturma, mapping planı hazırlama ve önbellekleme gibi işlemler yapar. Bu işlemler iş mantığının bir parçası değildir ve her uygulama başlatıldığında ya da ilk kullanımda performans bedeli ödetir.
+Compile-time mapping ise bu hazırlıkların tamamını derleme sırasında çözer ve runtime’da yalnızca düz, doğrudan C# kodu çalıştırır.  **
 
 Bu maliyet:
 
