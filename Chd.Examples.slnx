@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Benchmarks/">
     <Project Path="Chd.Mapping.Bechmark/Chd.Mapping.Bechmark.csproj" />
+    <Project Path="Chd.UnitTest/Chd.UnitTest.csproj" Id="741e37d0-5efe-45f5-af42-70c8d99ce324" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path="README.md" />
