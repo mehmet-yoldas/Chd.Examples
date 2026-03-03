@@ -126,19 +126,23 @@ await coordinator.Idempotency.RunAsync("send-email:123", async () =>
 ```csharp
 await coordinator.Saga.RunAsync("order-123", async saga =>
 {
-    // ✅ Her önemli adım için compensation tanımla
-    await saga.Step("charge-payment", 
-        action: async () => await ChargeCard(),
-        compensation: async () => await RefundCard());
-    
-    // ✅ Compensation gerektirmeyen adımlar
-    await saga.Step("send-notification", 
-        action: async () => await SendEmail());
-    
+    // ✅ Her önemli adımı sırayla tanımlayın
+    await saga.Step("validate-order", async () => await ValidateOrder());
+
+    await saga.Step("charge-payment", async () => await ChargeCard());
+
+    await saga.Step("send-notification", async () => await SendEmail());
+
     // ❌ Tüm iş mantığını tek step'e koymayın
     // Her mantıksal adım ayrı step olmalı
 });
 ```
+
+**Önemli Notlar:**
+- Her adım mantıksal olarak ayrı olmalı
+- Adımlar sıralı çalışır
+- Bir adımda hata oluşursa saga durur
+- Saga'yı resume edebilirsiniz
 
 ## 🔧 Yapılandırma
 

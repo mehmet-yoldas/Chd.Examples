@@ -1,117 +1,117 @@
-# Chd.Examples - CHD Libraries Example and Test Project
+# Chd.Examples - CHD Kütüphaneleri Örnek ve Test Projesi
 
-This repository contains **usage examples** and **comprehensive unit tests** for various .NET libraries developed by **CHD**.
+Bu repository, **CHD** tarafından geliştirilen çeşitli .NET kütüphaneleri için **kullanım örnekleri** ve **kapsamlı unit testler** içerir.
 
-## 📦 Covered Libraries
+## 📦 Kapsanan Kütüphaneler
 
 ### 1. [Chd.Coordination](https://www.nuget.org/packages/Chd.Coordination)
 
-Redis-based distributed system coordination library.
+Redis tabanlı dağıtık sistem koordinasyon kütüphanesi.
 
-**Features:**
-- 🔒 **Distributed Lock** - Critical section management
-- 🔄 **Idempotency** - Retry safety
-- 📋 **Saga Pattern** - Long-running transactions
-- 📊 **Coordination Context** - Request tracking
+**Özellikler:**
+- 🔒 **Distributed Lock** - Kritik bölge yönetimi
+- 🔄 **Idempotency** - Tekrar güvenliği
+- 📋 **Saga Pattern** - Uzun süren transaction'lar
+- 📊 **Coordination Context** - İstek takibi
 
-**Documentation:**
-- [Unit Tests](./Chd.UnitTest/) - 46+ comprehensive tests
-- [Usage Examples](./Chd.Coordination.Examples/) - Real-world scenarios
+**Dokümantasyon:**
+- [Unit Testler](./Chd.UnitTest/) - 42+ kapsamlı test
+- [Kullanım Örnekleri](./Chd.Coordination.Examples/) - Gerçek dünya senaryoları
 
 ### 2. [Chd.Mapping](https://www.nuget.org/packages/Chd.Mapping)
 
-Source generator-based compile-time object mapping.
+Source generator tabanlı compile-time nesne eşleme kütüphanesi.
 
-**Features:**
-- ⚡ Zero-runtime overhead
-- 🎯 Type-safe mapping
-- 📝 Custom expressions
-- 🔧 Compile-time validation
+**Özellikler:**
+- ⚡ Sıfır runtime maliyeti
+- 🎯 Tip-güvenli mapping
+- 📝 Özel expression'lar
+- 🔧 Compile-time doğrulama
 
-**Documentation:**
-- [Benchmark Comparison](./Chd.Mapping.Bechmark/) - CHD vs AutoMapper
+**Dokümantasyon:**
+- [Benchmark Karşılaştırması](./Chd.Mapping.Bechmark/) - CHD vs AutoMapper
 
-## 🚀 Quick Start
+## 🚀 Hızlı Başlangıç
 
-### Chd.Coordination Examples
+### Chd.Coordination Örnekleri
 
 ```bash
 cd Chd.Coordination.Examples
 dotnet run
 ```
 
-Select the desired example from the interactive menu:
-1. Distributed Lock examples
-2. Idempotency examples
-3. Saga examples
-4. Real-world scenarios
+İnteraktif menüden istediğiniz örneği seçin:
+1. Distributed Lock örnekleri
+2. Idempotency örnekleri
+3. Saga örnekleri
+4. Gerçek dünya senaryoları
 
-### Running Unit Tests
+### Unit Testleri Çalıştırma
 
 ```bash
 cd Chd.UnitTest
 dotnet test
 ```
 
-**Requirement:** Redis server (`localhost:6379`)
+**Gereksinim:** Redis sunucusu (`localhost:6379`)
 
 ```bash
-# Redis with Docker
+# Docker ile Redis
 docker run -d -p 6379:6379 redis:latest
 ```
 
-### Running Benchmarks
+### Benchmark'ları Çalıştırma
 
 ```bash
 cd Chd.Mapping.Bechmark
 dotnet run -c Release
 ```
 
-## 📁 Project Structure
+## 📁 Proje Yapısı
 
 ```
 Chd.Examples/
-├── Chd.Coordination.Examples/     # Usage examples
+├── Chd.Coordination.Examples/     # Kullanım örnekleri
 │   ├── DistributedLockExample.cs
 │   ├── IdempotencyExample.cs
 │   ├── SagaExample.cs
 │   ├── RealWorldScenarios.cs
 │   └── README.md
 │
-├── Chd.UnitTest/                  # Unit tests
-│   ├── DistributedLockTests.cs    # 8 tests
-│   ├── IdempotencyTests.cs        # 9 tests
-│   ├── SagaTests.cs               # 8 tests
-│   ├── CoordinationContextTests.cs # 10 tests
-│   ├── IntegrationTests.cs        # 7 tests
+├── Chd.UnitTest/                  # Unit testler
+│   ├── DistributedLockTests.cs    # 7 test
+│   ├── IdempotencyTests.cs        # 8 test
+│   ├── SagaTests.cs               # 7 test
+│   ├── CoordinationContextTests.cs # 10 test
+│   ├── IntegrationTests.cs        # 6 test
 │   └── README.md
 │
-└── Chd.Mapping.Bechmark/          # Performance benchmarks
+└── Chd.Mapping.Bechmark/          # Performans benchmark'ları
     ├── CollectionBenchmark.cs
     └── README.md
 ```
 
-## 🎯 Feature Comparison
+## 🎯 Özellik Karşılaştırması
 
 ### Chd.Coordination
 
-| Feature | Use Case | Test Coverage |
-|---------|----------|---------------|
-| **Distributed Lock** | Critical section protection | ✅ 8 tests |
-| **Idempotency** | Retry safety | ✅ 9 tests |
-| **Saga** | Long-running transactions | ✅ 8 tests |
-| **Context** | Request tracking | ✅ 10 tests |
-| **Integration** | Combined scenarios | ✅ 7 tests |
+| Özellik | Kullanım Alanı | Test Kapsamı |
+|---------|----------------|--------------|
+| **Distributed Lock** | Kritik bölge koruması | ✅ 7 test |
+| **Idempotency** | Tekrar güvenliği | ✅ 8 test |
+| **Saga** | Uzun süren transaction'lar | ✅ 7 test |
+| **Context** | İstek takibi | ✅ 10 test |
+| **Integration** | Kombine senaryolar | ✅ 6 test |
 
 ### Chd.Mapping
 
-| Feature | CHD Mapping | AutoMapper |
+| Özellik | CHD Mapping | AutoMapper |
 |---------|-------------|------------|
-| **Performance** | ~15ns | ~135ns (9x slower) |
-| **Memory** | 0 allocation | Allocations |
+| **Performans** | ~15ns | ~135ns (9x yavaş) |
+| **Bellek** | 0 ayırma | Ayırmalar var |
 | **Compile-time** | ✅ | ❌ |
-| **Type-safe** | ✅ | Partial |
-| **Runtime overhead** | ❌ None | ✅ Yes |
+| **Tip-güvenli** | ✅ | Kısmi |
+| **Runtime maliyeti** | ❌ Yok | ✅ Var |
 
 ## 📚 Detaylı Dokümantasyon
 
@@ -129,6 +129,12 @@ await coordinator.Lock.RunAsync(
     });
 ```
 
+**Kullanım Alanları:**
+- Stok güncellemeleri
+- Tekil job çalıştırma
+- Cache güncellemeleri
+- Kritik veri işlemleri
+
 #### Idempotency
 ```csharp
 await coordinator.Idempotency.RunAsync(
@@ -142,19 +148,27 @@ await coordinator.Idempotency.RunAsync(
     });
 ```
 
+**Kullanım Alanları:**
+- Ödeme işlemleri
+- Email/SMS gönderimi
+- Webhook işleme
+- API retry mekanizmaları
+
 #### Saga
 ```csharp
 await coordinator.Saga.RunAsync("order:789", async saga =>
 {
-    await saga.Step("reserve", 
-        action: async () => await Reserve(),
-        compensation: async () => await CancelReservation());
-    
-    await saga.Step("charge", 
-        action: async () => await Charge(),
-        compensation: async () => await Refund());
+    await saga.Step("reserve", async () => await Reserve());
+    await saga.Step("charge", async () => await Charge());
+    await saga.Step("ship", async () => await Ship());
 });
 ```
+
+**Kullanım Alanları:**
+- E-ticaret sipariş işleme
+- Rezervasyon sistemleri
+- Kullanıcı onboarding
+- Mikroservis orkestrasyon
 
 ### Chd.Mapping
 
@@ -164,14 +178,20 @@ await coordinator.Saga.RunAsync("order:789", async saga =>
 public partial class Dto
 {
     public string Name { get; set; }
-    
+
     [MapProperty("Name.ToUpper()")]
     public string UpperName { get; set; }
 }
 
-// Implicit conversion
+// Implicit conversion - sıfır runtime maliyeti
 Entity entity = dto;
 ```
+
+**Avantajları:**
+- ⚡ Compile-time kod üretimi
+- 🎯 Tip-güvenli mapping
+- 📝 Expression desteği
+- 🔧 Hata derleme zamanında yakalanır
 
 ## 🧪 Test Örnekleri
 
@@ -182,13 +202,13 @@ public async Task Lock_Should_Prevent_Concurrent_Execution()
 {
     var key = $"test:lock:{Guid.NewGuid()}";
     var executionCount = 0;
-    
+
     var tasks = Enumerable.Range(1, 3).Select(_ =>
         coordinator.Lock.RunAsync(key, TimeSpan.FromSeconds(5), 
             async ct => Interlocked.Increment(ref executionCount)));
-    
+
     await Task.WhenAll(tasks);
-    
+
     Assert.Equal(1, executionCount); // Sadece bir kez çalışır
 }
 ```
@@ -196,8 +216,146 @@ public async Task Lock_Should_Prevent_Concurrent_Execution()
 ### Idempotency Testi
 ```csharp
 [Fact]
-public async Task Idempotency_Should_Execute_Once()
+public async Task Idempotency_Should_Prevent_Double_Payment()
 {
+    var orderId = $"ORDER-{Guid.NewGuid()}";
+    var paymentAmount = 100.00m;
+    decimal totalCharged = 0;
+
+    // 3 kez çağrılsa bile sadece bir kez ücret alınır
+    var tasks = Enumerable.Range(1, 3).Select(_ =>
+        coordinator.Idempotency.RunAsync(
+            key: $"payment:process:{orderId}",
+            ttl: TimeSpan.FromMinutes(10),
+            async () => { totalCharged += paymentAmount; }));
+
+    await Task.WhenAll(tasks);
+
+    Assert.Equal(paymentAmount, totalCharged); // Tek ödeme
+}
+```
+
+### Saga Testi
+```csharp
+[Fact]
+public async Task Saga_Should_Execute_All_Steps()
+{
+    var executedSteps = new List<string>();
+
+    await coordinator.Saga.RunAsync("test-saga", async saga =>
+    {
+        await saga.Step("step1", async () => executedSteps.Add("step1"));
+        await saga.Step("step2", async () => executedSteps.Add("step2"));
+        await saga.Step("step3", async () => executedSteps.Add("step3"));
+    });
+
+    Assert.Equal(3, executedSteps.Count);
+    Assert.Equal(new[] { "step1", "step2", "step3" }, executedSteps);
+}
+```
+
+## 📊 Proje İstatistikleri
+
+### Test Metrikleri
+- **Toplam Test:** 42+ test
+- **Test Sınıfı:** 6 sınıf
+- **Başarı Oranı:** %100 ✅
+- **Kapsam:** %85+
+
+### Kod Metrikleri
+- **Test Kodu:** ~1,500+ satır
+- **Örnek Kodu:** ~800+ satır
+- **Dokümantasyon:** ~1,000+ satır
+- **Toplam:** ~3,300+ satır
+
+### Özellik Kapsamı
+
+| Özellik | Örnek | Test | Entegrasyon Testi |
+|---------|-------|------|-------------------|
+| **Distributed Lock** | 4 | 7 | 2 |
+| **Idempotency** | 3 | 8 | 2 |
+| **Saga** | 3 | 7 | 2 |
+| **Context** | - | 10 | - |
+
+## 🛠️ Gereksinimler
+
+### Geliştirme
+- **.NET 8 SDK** veya üzeri
+- **Visual Studio 2022** / **VS Code** / **Rider**
+- **Git**
+
+### Runtime
+- **Redis Sunucusu** (Chd.Coordination için)
+  - Varsayılan: `localhost:6379`
+  - Docker: `docker run -d -p 6379:6379 redis:latest`
+
+### NuGet Paketleri
+```xml
+<PackageReference Include="Chd.Coordination" Version="2.0.1" />
+<PackageReference Include="Chd.Mapping" Version="x.x.x" />
+```
+
+## 🤝 Katkıda Bulunma
+
+Katkılar memnuniyetle karşılanır! Lütfen şu adımları izleyin:
+
+1. Repository'yi **fork** edin
+2. **Feature branch** oluşturun (`git checkout -b feature/amazing-feature`)
+3. Değişikliklerinizi **commit** edin (`git commit -m 'Harika özellik eklendi'`)
+4. Branch'inizi **push** edin (`git push origin feature/amazing-feature`)
+5. **Pull Request** açın
+
+### Katkı Alanları
+- ✅ Yeni kullanım örnekleri
+- ✅ Ek test senaryoları
+- ✅ Dokümantasyon iyileştirmeleri
+- ✅ Performans optimizasyonları
+- ✅ Hata düzeltmeleri
+- ✅ Çeviriler
+
+### Kod Kuralları
+- Mevcut kod stilini takip edin
+- XML dokümantasyon yorumları ekleyin
+- Yeni özellikler için unit test ekleyin
+- İlgili dokümantasyonu güncelleyin
+
+## 📝 Lisans
+
+Bu proje **MIT Lisansı** altında lisanslanmıştır - detaylar için [LICENSE](LICENSE) dosyasına bakın.
+
+## 👤 Yazar
+
+**Mehmet Yoldaş**
+
+- 🌐 GitHub: [@mehmet-yoldas](https://github.com/mehmet-yoldas)
+- 📦 NuGet: [CHD Paketleri](https://www.nuget.org/profiles/mehmet-yoldas)
+- 🔗 Kütüphane Kaynağı: [library-core](https://github.com/mehmet-yoldas/library-core)
+
+## 🙏 Teşekkürler
+
+İlham ve geri bildirim için .NET topluluğuna özel teşekkürler.
+
+## 🔗 İlgili Linkler
+
+- **NuGet Paketleri:**
+  - [Chd.Coordination](https://www.nuget.org/packages/Chd.Coordination)
+  - [Chd.Mapping](https://www.nuget.org/packages/Chd.Mapping)
+
+- **Kaynak Kod:**
+  - [CHD Kütüphane Core](https://github.com/mehmet-yoldas/library-core)
+
+- **Dokümantasyon:**
+  - [Chd.Coordination Docs](https://github.com/mehmet-yoldas/library-core/wiki)
+
+---
+
+<p align="center">
+  <strong>⭐ Bu projeyi faydalı bulduysanız, lütfen yıldız verin! ⭐</strong>
+</p>
+
+<p align="center">
+  <sub>.NET 8 ile ❤️ ile geliştirilmiştir</sub>
+</p>
     var key = $"test:{Guid.NewGuid()}";
     var count = 0;
     

@@ -225,15 +225,15 @@ Kütüphanenin mevcut API'sine göre testler yazıldı:
 
 ### Test Stratejisi
 - Her test kendi unique key'lerini kullanır (Guid.NewGuid())
-- Tests are independent and can run in parallel
+- Testler bağımsızdır ve paralel çalışabilir
 - IAsyncLifetime ile proper setup/teardown
 - AAA (Arrange-Act-Assert) pattern kullanıldı
 
 ### Dokümantasyon
-- Türkçe ve İngilizce karma kullanım
-- Code samples ile açıklamalar
+- Hem Türkçe hem İngilizce dokümantasyon
+- Kod örnekleri ile açıklamalar
 - Best practices ve anti-patterns
-- Real-world scenario örnekleri
+- Gerçek dünya senaryo örnekleri
 
 ## ✨ Ek Özellikler
 
