@@ -7,7 +7,6 @@
     <Project Path="Chd.Coordination.Examples/Chd.Coordination.Examples.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
-    <File Path="IMPLEMENTATION_SUMMARY.EN.md" />
     <File Path="README.md" />
   </Folder>
 </Solution>
