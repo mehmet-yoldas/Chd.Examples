@@ -1,25 +1,25 @@
-﻿# CHD Coordination Unit Testleri
+﻿# CHD Coordination Unit Tests
 
-Bu dizin, [Chd.Coordination](https://www.nuget.org/packages/Chd.Coordination) kütüphanesinin .NET 8 ve xUnit ile yapılan **kapsamlı otomatik testlerini** içerir. Amaç, kütüphanenin tüm özelliklerinin (distributed lock, idempotency, saga, context) doğru, güvenilir ve performanslı bir şekilde çalıştığını doğrulamaktır.
+This directory contains **comprehensive automated tests** for the [Chd.Coordination](https://www.nuget.org/packages/Chd.Coordination) library using .NET 8 and xUnit. The goal is to verify that all features (distributed lock, idempotency, saga, context) work correctly, reliably, and performantly.
 
-## 📋 Test Sınıfları
+## ðŸ“‹ Test Classes
 
-### 1. DistributedLockTests (8 test)
+### 1. DistributedLockTests (7 tests)
 
-Distributed lock özelliğinin tüm yönlerini test eder:
+Tests all aspects of the distributed lock feature:
 
-- ✅ Temel kilit alma ve serbest bırakma
-- ✅ Dönüş değeri ile kilit kullanımı
-- ✅ Eşzamanlı kilitleme senaryoları
-- ✅ Timeout yönetimi
-- ✅ Exception durumunda kilit serbest bırakma
-- ✅ İptal (cancellation) desteği
-- ✅ Farklı anahtarlar için paralel çalışma
+- âœ… Basic lock acquisition and release
+- âœ… Action execution with lock
+- âœ… Concurrent locking scenarios
+- âœ… Timeout management
+- âœ… Lock release on exception
+- âœ… Cancellation support
+- âœ… Parallel execution with different keys
 
-**Test Senaryoları:**
+**Test Scenarios:**
 ```csharp
 Lock_Should_Acquire_And_Release_Successfully()
-Lock_Should_Return_Value()
+Lock_Should_Execute_Action()
 Lock_Should_Prevent_Concurrent_Execution()
 Lock_Should_Timeout_When_Cannot_Acquire()
 Lock_Should_Release_On_Exception()
@@ -27,69 +27,69 @@ Lock_Should_Handle_Cancellation()
 Lock_Should_Support_Different_Keys()
 ```
 
-### 2. IdempotencyTests (9 test)
+### 2. IdempotencyTests (8 tests)
 
-Idempotency özelliğinin garantilerini doğrular:
+Validates idempotency guarantees:
 
-- ✅ Tekrar çağrıldığında sadece bir kez çalışma
-- ✅ Cache'lenmiş değer döndürme
-- ✅ TTL sonrası yeniden çalışma
-- ✅ Eşzamanlı çağrılarda tek çalıştırma
-- ✅ Exception durumunda tekrar deneme
-- ✅ Farklı anahtarlar için bağımsız çalışma
-- ✅ Karmaşık dönüş tipleri desteği
-- ✅ Double-payment önleme (gerçek senaryo)
+- âœ… Execute only once when called multiple times
+- âœ… Cache execution results
+- âœ… Re-execute after TTL expiration
+- âœ… Single execution under concurrent calls
+- âœ… Retry on exception
+- âœ… Independent execution for different keys
+- âœ… Complex state handling
+- âœ… Double-payment prevention (real scenario)
 
-**Test Senaryoları:**
+**Test Scenarios:**
 ```csharp
 Idempotency_Should_Execute_Once()
-Idempotency_Should_Return_Cached_Value()
+Idempotency_Should_Cache_Execution()
 Idempotency_Should_Execute_Again_After_TTL()
 Idempotency_Should_Handle_Concurrent_Calls()
 Idempotency_Should_Handle_Exception()
 Idempotency_Should_Support_Different_Keys()
-Idempotency_Should_Handle_Complex_Return_Types()
+Idempotency_Should_Handle_Complex_State()
 Idempotency_Should_Prevent_Double_Payment()
 ```
 
-### 3. SagaTests (8 test)
+### 3. SagaTests (7 tests)
 
-Saga pattern implementasyonunu test eder:
+Tests saga pattern implementation:
 
-- ✅ Tüm adımların sıralı çalışması
-- ✅ Compensation (geri alma) mekanizması
-- ✅ Crash sonrası devam etme (resume)
-- ✅ Compensation olmayan adımlar
-- ✅ Karmaşık iş akışları
-- ✅ Hata durumunda rollback
-- ✅ Paralel farklı saga'lar
+- âœ… Sequential execution of all steps
+- âœ… Error handling
+- âœ… Resume after crash/failure
+- âœ… Steps without compensation
+- âœ… Complex workflows
+- âœ… Failure handling in complex workflows
+- âœ… Parallel execution of different sagas
 
-**Test Senaryoları:**
+**Test Scenarios:**
 ```csharp
 Saga_Should_Execute_All_Steps()
-Saga_Should_Execute_Compensation_On_Failure()
+Saga_Should_Handle_Failure()
 Saga_Should_Resume_After_Crash()
 Saga_Should_Handle_Steps_Without_Compensation()
 Saga_Should_Support_Complex_Workflow()
-Saga_Should_Rollback_Complex_Workflow_On_Failure()
+Saga_Should_Handle_Failure_In_Complex_Workflow()
 Saga_Should_Support_Parallel_Different_Sagas()
 ```
 
-### 4. CoordinationContextTests (10 test)
+### 4. CoordinationContextTests (10 tests)
 
-Context yönetimi ve izlenebilirlik testleri:
+Context management and traceability tests:
 
-- ✅ CorrelationId oluşturma
-- ✅ Custom CorrelationId kullanımı
-- ✅ LockKey ile context
-- ✅ SagaId ile context
-- ✅ Tüm özellikleri içeren context
-- ✅ Benzersiz ID üretimi
-- ✅ Immutability (değiştirilemezlik)
-- ✅ ToString, Equality, Deconstruction
-- ✅ Request flow tracking
+- âœ… CorrelationId creation
+- âœ… Custom CorrelationId usage
+- âœ… Context with LockKey
+- âœ… Context with SagaId
+- âœ… Context with all properties
+- âœ… Unique ID generation
+- âœ… Immutability
+- âœ… ToString, Equality, GetHashCode
+- âœ… Request flow tracking
 
-**Test Senaryoları:**
+**Test Scenarios:**
 ```csharp
 Context_Should_Create_With_CorrelationId()
 Context_Should_Create_With_Custom_CorrelationId()
@@ -97,56 +97,56 @@ Context_Should_Create_With_LockKey()
 Context_Should_Create_With_SagaId()
 Context_Should_Create_With_All_Properties()
 Context_Should_Generate_Unique_CorrelationIds()
-// ... ve daha fazlası
+// ... and more
 ```
 
-### 5. IntegrationTests (7 test)
+### 5. IntegrationTests (6 tests)
 
-Özelliklerin birlikte kullanımını test eder:
+Tests combining multiple features:
 
-- ✅ Lock + Idempotency kombinasyonu
-- ✅ Saga + Lock kombinasyonu
-- ✅ Idempotent Saga
-- ✅ Banka havalesi senaryosu (tüm özellikler)
-- ✅ Banka havalesi rollback senaryosu
-- ✅ Job processing (3 özellik birlikte)
+- âœ… Lock + Idempotency combination
+- âœ… Saga + Lock combination
+- âœ… Idempotent Saga
+- âœ… Bank transfer scenario (all features)
+- âœ… Bank transfer failure scenario
+- âœ… Job processing (3 features combined)
 
-**Test Senaryoları:**
+**Test Scenarios:**
 ```csharp
 Integration_Lock_And_Idempotency()
 Integration_Saga_With_Locked_Steps()
 Integration_Idempotent_Saga()
 Integration_BankTransfer_Scenario()
-Integration_BankTransfer_Rollback_Scenario()
+Integration_BankTransfer_Failure_Scenario()
 Integration_JobProcessing_With_All_Features()
 ```
 
-### 6. CoordinationUnitTest (Legacy - 4 test)
+### 6. CoordinationUnitTest (Legacy - 4 tests)
 
-Orijinal temel testler (geriye dönük uyumluluk için korunmuştur).
+Original basic tests (kept for backward compatibility).
 
-## 📊 Test İstatistikleri
+## ðŸ“Š Test Statistics
 
-- **Toplam Test Sayısı:** 46+ test
-- **Kapsanan Özellikler:** 4 ana özellik
-- **Test Türleri:** Unit tests + Integration tests
+- **Total Test Count:** 42+ tests
+- **Covered Features:** 4 main features
+- **Test Types:** Unit tests + Integration tests
 - **Framework:** xUnit with .NET 8
 
-## 🚀 Testleri Çalıştırma
+## ðŸš€ Running Tests
 
-### Gereksinimler
+### Requirements
 
 - .NET 8 SDK
-- Redis sunucusu (`localhost:6379`)
+- Redis server (`localhost:6379`)
 
-### Redis Kurulumu
+### Redis Setup
 
-**Docker ile:**
+**With Docker:**
 ```bash
 docker run -d -p 6379:6379 redis:latest
 ```
 
-**Yerel kurulum:**
+**Local installation:**
 ```bash
 # Windows (Chocolatey)
 choco install redis-64
@@ -160,87 +160,87 @@ sudo apt-get install redis-server
 sudo service redis-server start
 ```
 
-### Test Komutları
+### Test Commands
 
 ```bash
-# Tüm testleri çalıştır
+# Run all tests
 dotnet test
 
-# Detaylı çıktı ile
+# With detailed output
 dotnet test --logger "console;verbosity=detailed"
 
-# Belirli bir test sınıfı
+# Specific test class
 dotnet test --filter "FullyQualifiedName~DistributedLockTests"
 
-# Code coverage ile
+# With code coverage
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 ```
 
-## 🎯 Test Metodolojisi
+## ðŸŽ¯ Test Methodology
 
-### Test Yapısı (AAA Pattern)
+### Test Structure (AAA Pattern)
 
 ```csharp
 [Fact]
 public async Task TestName_Should_ExpectedBehavior_When_Condition()
 {
-    // Arrange - Test verilerini hazırla
+    // Arrange - Prepare test data
     var key = $"test:{Guid.NewGuid()}";
-
-    // Act - Test edilecek işlemi çalıştır
+    
+    // Act - Execute the operation being tested
     var result = await _coordinator.Lock.RunAsync(...);
-
-    // Assert - Sonuçları doğrula
+    
+    // Assert - Verify results
     Assert.True(result);
 }
 ```
 
-### Test İsimlendirme
+### Test Naming
 
-- `Feature_Should_Behavior` formatı
-- Açıklayıcı ve anlaşılır
-- Örnek: `Lock_Should_Release_On_Exception()`
+- `Feature_Should_Behavior` format
+- Descriptive and clear
+- Example: `Lock_Should_Release_On_Exception()`
 
-### Test Bağımsızlığı
+### Test Independence
 
-- Her test kendi benzersiz anahtarlarını kullanır (`Guid.NewGuid()`)
-- `IAsyncLifetime` ile proper setup/teardown
-- Test'ler paralel çalışabilir
+- Each test uses its own unique keys (`Guid.NewGuid()`)
+- Proper setup/teardown with `IAsyncLifetime`
+- Tests can run in parallel
 
-## 🔍 Test Coverage
+## ðŸ” Test Coverage
 
 ### Distributed Lock
-- ✅ Normal akış
-- ✅ Hata durumları
-- ✅ Eşzamanlılık
-- ✅ Timeout
-- ✅ Cancellation
+- âœ… Normal flow
+- âœ… Error conditions
+- âœ… Concurrency
+- âœ… Timeout
+- âœ… Cancellation
 
 ### Idempotency
-- ✅ Temel idempotency
-- ✅ Caching
-- ✅ TTL yönetimi
-- ✅ Concurrent access
-- ✅ Exception handling
+- âœ… Basic idempotency
+- âœ… Caching
+- âœ… TTL management
+- âœ… Concurrent access
+- âœ… Exception handling
 
 ### Saga
-- ✅ Step execution
-- ✅ Compensation
-- ✅ Resume/recovery
-- ✅ Complex workflows
-- ✅ Rollback
+- âœ… Step execution
+- âœ… Error handling
+- âœ… Resume/recovery
+- âœ… Complex workflows
+- âœ… Failure scenarios
 
 ### Integration
-- ✅ Feature combinations
-- ✅ Real-world scenarios
-- ✅ Error handling
-- ✅ Rollback scenarios
+- âœ… Feature combinations
+- âœ… Real-world scenarios
+- âœ… Error handling
+- âœ… Failure scenarios
 
-## 🐛 Test Debugging
+## ðŸ› Test Debugging
 
 ### Visual Studio
 ```
-Test Explorer → Right Click → Debug
+Test Explorer â†’ Right Click â†’ Debug
 ```
 
 ### VS Code
@@ -258,11 +258,11 @@ Test Explorer → Right Click → Debug
 
 ### Command Line
 ```bash
-# Belirli bir testi debug modda çalıştır
+# Debug specific test with detailed output
 dotnet test --filter "Lock_Should_Acquire" --logger "console;verbosity=detailed"
 ```
 
-## 📝 Yeni Test Ekleme
+## ðŸ“ Adding New Tests
 
 ```csharp
 [Fact]
@@ -270,30 +270,30 @@ public async Task NewFeature_Should_DoSomething()
 {
     // Arrange
     var key = $"test:newfeature:{Guid.NewGuid()}";
-
+    
     // Act
     var result = await _coordinator.NewFeature.ExecuteAsync(key);
-
+    
     // Assert
     Assert.NotNull(result);
 }
 ```
 
-## 🤝 Katkı
+## ðŸ¤ Contributing
 
-Yeni testler veya iyileştirmeler için:
+To add new tests or improvements:
 
-1. Fork yapın
-2. Test ekleyin/güncelleyin
-3. `dotnet test` ile doğrulayın
-4. Pull request gönderin
+1. Fork the repository
+2. Add/update tests
+3. Verify with `dotnet test`
+4. Submit a pull request
 
-## 📖 İlgili Kaynaklar
+## ðŸ“– Related Resources
 
-- [Kullanım Örnekleri](../Chd.Coordination.Examples/)
-- [NuGet Paketi](https://www.nuget.org/packages/Chd.Coordination)
-- [Kaynak Kodu](https://github.com/mehmet-yoldas/library-core)
+- [Usage Examples](../Chd.Coordination.Examples/)
+- [NuGet Package](https://www.nuget.org/packages/Chd.Coordination)
+- [Source Code](https://github.com/mehmet-yoldas/library-core)
 
-## 📄 Lisans
+## ðŸ“„ License
 
 MIT License

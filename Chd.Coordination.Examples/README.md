@@ -1,15 +1,15 @@
-# Chd.Coordination - Kullanım Örnekleri
+# Chd.Coordination - Usage Examples
 
-Bu proje, [Chd.Coordination](https://www.nuget.org/packages/Chd.Coordination) kütüphanesinin tüm özelliklerini gösteren kapsamlı örnekler içerir.
+This project contains comprehensive examples demonstrating all features of the [Chd.Coordination](https://www.nuget.org/packages/Chd.Coordination) library.
 
-## 🚀 Başlangıç
+## 🚀 Getting Started
 
-### Gereksinimler
+### Requirements
 
 - .NET 8 SDK
-- Redis sunucusu (varsayılan: `localhost:6379`)
+- Redis server (default: `localhost:6379`)
 
-### Redis Kurulumu
+### Redis Setup
 
 **Windows (Docker):**
 ```bash
@@ -18,155 +18,147 @@ docker run -d -p 6379:6379 redis:latest
 
 **macOS/Linux:**
 ```bash
-# Homebrew ile
+# With Homebrew
 brew install redis
 redis-server
 
-# Docker ile
+# With Docker
 docker run -d -p 6379:6379 redis:latest
 ```
 
-### Çalıştırma
+### Running
 
 ```bash
 cd Chd.Coordination.Examples
 dotnet run
 ```
 
-## 📚 Örnekler
+## 📚 Examples
 
-### 1. Distributed Lock Örnekleri
+### 1. Distributed Lock Examples
 
-Distributed lock özelliği, dağıtık sistemlerde kritik kod bölümlerinin sadece bir sunucu/instance tarafından aynı anda çalıştırılmasını sağlar.
+The distributed lock feature ensures that critical code sections are executed by only one server/instance at a time in distributed systems.
 
-**Örnek Senaryolar:**
-- ✅ Temel kilit kullanımı
-- ✅ Dönüş değeri ile kilit
-- ✅ Rekabet eden kilitler (multiple servers)
-- ✅ Timeout yönetimi
+**Example Scenarios:**
+- ✅ Basic lock usage
+- ✅ Lock with action execution
+- ✅ Sequential lock acquisition
+- ✅ Parallel locks on different keys
 
-**Kullanım Alanları:**
-- Kritik veri güncellemeleri (stok, bakiye vb.)
-- Tekil job execution
+**Use Cases:**
+- Critical data updates (inventory, balance, etc.)
+- Unique job execution
 - Rate limiting
-- Cache güncellemeleri
+- Cache updates
 
-### 2. Idempotency Örnekleri
+### 2. Idempotency Examples
 
-Idempotency özelliği, aynı işlemin birden fazla kez çağrılması durumunda sadece bir kez çalışmasını ve aynı sonucu döndürmesini garanti eder.
+The idempotency feature guarantees that when the same operation is called multiple times, it executes only once and returns the same result.
 
-**Örnek Senaryolar:**
-- ✅ Temel idempotency
-- ✅ Dönüş değeri ile idempotency (caching)
-- ✅ Ödeme işlemi (double-click protection)
+**Example Scenarios:**
+- ✅ Basic idempotency
+- ✅ Idempotency with caching behavior
+- ✅ Payment processing (double-click protection)
 
-**Kullanım Alanları:**
-- Ödeme işlemleri
-- Email/SMS gönderimi
-- Webhook işleme
-- API retry mekanizmaları
+**Use Cases:**
+- Payment processing
+- Email/SMS sending
+- Webhook processing
+- API retry mechanisms
 - Event sourcing
 
-### 3. Saga Örnekleri
+### 3. Saga Examples
 
-Saga pattern, uzun süren ve birden fazla adımdan oluşan distributed transaction'ları yönetir. Her adım için compensation (geri alma) tanımlanabilir.
+Saga pattern manages long-running distributed transactions consisting of multiple steps. Each step can have a compensation (rollback) defined.
 
-**Örnek Senaryolar:**
-- ✅ Temel saga kullanımı
-- ✅ Compensation ile saga (rollback)
-- ✅ Sipariş işleme saga'sı
+**Example Scenarios:**
+- ✅ Basic saga usage
+- ✅ Saga with error handling
+- ✅ Order processing saga
 
-**Kullanım Alanları:**
-- E-ticaret sipariş işleme
-- Rezervasyon sistemleri
-- Kullanıcı onboarding
-- Mikroservis orchestration
+**Use Cases:**
+- E-commerce order processing
+- Reservation systems
+- User onboarding
+- Microservice orchestration
 
-### 4. Gerçek Dünya Senaryoları
+### 4. Real-World Scenarios
 
-Birden fazla özelliği kombine eden karmaşık senaryolar.
+Complex scenarios combining multiple features.
 
-**Örnek Senaryolar:**
-- ✅ Banka havalesi (Saga + Lock + Idempotency)
+**Example Scenarios:**
+- ✅ Bank transfer (Saga + Lock + Idempotency)
 - ✅ Concurrent job processing (Lock + Context)
 - ✅ Event processing (Idempotency + deduplication)
 
-## 🎯 Özelliklerin Karşılaştırması
+## 🎯 Feature Comparison
 
-| Özellik | Amaç | Ne Zaman Kullanılır |
-|---------|------|---------------------|
-| **Distributed Lock** | Kritik bölge koruması | Aynı anda sadece bir instance çalışmalı |
-| **Idempotency** | Tekrar güvenliği | İşlem birden fazla kez çağrılabilir |
-| **Saga** | Uzun transaction yönetimi | Birden fazla adım, rollback gerekli |
-| **CoordinationContext** | İzlenebilirlik | Request tracking, correlation |
+| Feature | Purpose | When to Use |
+|---------|---------|-------------|
+| **Distributed Lock** | Critical section protection | Only one instance should run at a time |
+| **Idempotency** | Retry safety | Operation may be called multiple times |
+| **Saga** | Long transaction management | Multiple steps, rollback needed |
+| **CoordinationContext** | Traceability | Request tracking, correlation |
 
-## 🏗️ Mimari Notlar
+## 🏗️ Architecture Notes
 
 ### Distributed Lock vs Idempotency
 
 ```csharp
-// ❌ Yanlış - Lock kullanımı gereksiz
+// ❌ Wrong - Lock usage unnecessary
 await coordinator.Lock.RunAsync("send-email:123", async ct => 
 {
-    await SendEmail(); // Zaten idempotent olmalı
+    await SendEmail(); // Should be idempotent already
 });
 
-// ✅ Doğru - Idempotency yeterli
+// ✅ Right - Idempotency is sufficient
 await coordinator.Idempotency.RunAsync("send-email:123", async () => 
 {
     await SendEmail();
 });
 ```
 
-**Lock:** Eşzamanlılık kontrolü (mutual exclusion)  
-**Idempotency:** Tekrar güvenliği (duplicate protection)
+**Lock:** Concurrency control (mutual exclusion)  
+**Idempotency:** Retry safety (duplicate protection)
 
 ### Saga Best Practices
 
 ```csharp
 await coordinator.Saga.RunAsync("order-123", async saga =>
 {
-    // ✅ Her önemli adımı sırayla tanımlayın
-    await saga.Step("validate-order", async () => await ValidateOrder());
-
+    // ✅ Define steps for important operations
     await saga.Step("charge-payment", async () => await ChargeCard());
-
-    await saga.Step("send-notification", async () => await SendEmail());
-
-    // ❌ Tüm iş mantığını tek step'e koymayın
-    // Her mantıksal adım ayrı step olmalı
+    await saga.Step("reserve-inventory", async () => await ReserveItems());
+    await saga.Step("create-shipment", async () => await CreateShipment());
+    
+    // ❌ Don't put all business logic in one step
+    // Each logical operation should be a separate step
 });
 ```
 
-**Önemli Notlar:**
-- Her adım mantıksal olarak ayrı olmalı
-- Adımlar sıralı çalışır
-- Bir adımda hata oluşursa saga durur
-- Saga'yı resume edebilirsiniz
-
-## 🔧 Yapılandırma
+## 🔧 Configuration
 
 ```csharp
 services.AddCoordination(opt =>
 {
-    // Redis bağlantı dizesi
+    // Redis connection string
     opt.RedisConnectionString = "localhost:6379";
     
-    // Opsiyonel: Prefix
+    // Optional: Prefix
     opt.KeyPrefix = "myapp:";
 });
 ```
 
-## 📖 İlgili Kaynaklar
+## 📖 Related Resources
 
-- [NuGet Paketi](https://www.nuget.org/packages/Chd.Coordination)
-- [Kaynak Kodu](https://github.com/mehmet-yoldas/library-core)
-- [Unit Testler](../Chd.UnitTest/)
+- [NuGet Package](https://www.nuget.org/packages/Chd.Coordination)
+- [Source Code](https://github.com/mehmet-yoldas/library-core)
+- [Unit Tests](../Chd.UnitTest/)
 
-## 🤝 Katkı
+## 🤝 Contributing
 
-Yeni örnek senaryolar veya iyileştirmeler için pull request göndermekten çekinmeyin!
+Feel free to send pull requests for new example scenarios or improvements!
 
-## 📝 Lisans
+## 📝 License
 
-Bu örnekler MIT lisansı altında sunulmaktadır.
+These examples are provided under the MIT License.
