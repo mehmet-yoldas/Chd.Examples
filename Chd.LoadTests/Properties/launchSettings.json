@@ -1,0 +1,50 @@
+{
+  "profiles": {
+    "Chd.LoadTests": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    },
+    "Lock Test (Debug)": {
+      "commandName": "Project",
+      "commandLineArgs": "1",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "AUTO_SELECT_SCENARIO": "1"
+      }
+    },
+    "Idempotency Test (Debug)": {
+      "commandName": "Project",
+      "commandLineArgs": "2",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "AUTO_SELECT_SCENARIO": "2"
+      }
+    },
+    "Saga Test (Debug)": {
+      "commandName": "Project",
+      "commandLineArgs": "3",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "AUTO_SELECT_SCENARIO": "3"
+      }
+    },
+    "Mixed Workload (Debug)": {
+      "commandName": "Project",
+      "commandLineArgs": "4",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "AUTO_SELECT_SCENARIO": "4"
+      }
+    },
+    "Run All Tests": {
+      "commandName": "Project",
+      "commandLineArgs": "5",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "AUTO_SELECT_SCENARIO": "5"
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "profiles": {
+    "Chd.Coordination.Benchmark": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    },
+    "Lock Benchmarks": {
+      "commandName": "Project",
+      "commandLineArgs": "",
+      "environmentVariables": {
+        "BENCHMARK_FILTER": "LockBenchmarks"
+      }
+    },
+    "Idempotency Benchmarks": {
+      "commandName": "Project",
+      "commandLineArgs": "",
+      "environmentVariables": {
+        "BENCHMARK_FILTER": "IdempotencyBenchmarks"
+      }
+    },
+    "Saga Benchmarks": {
+      "commandName": "Project",
+      "commandLineArgs": "",
+      "environmentVariables": {
+        "BENCHMARK_FILTER": "SagaBenchmarks"
+      }
+    },
+    "Comparison Benchmarks": {
+      "commandName": "Project",
+      "commandLineArgs": "",
+      "environmentVariables": {
+        "BENCHMARK_FILTER": "ComparisonBenchmarks"
+      }
+    }
+  }
+}

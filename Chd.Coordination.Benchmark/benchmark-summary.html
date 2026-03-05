@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <title>Benchmark Summary - Visual</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; padding: 24px; background:#f7f7f7; color:#222 }
+    h2 { margin-top:28px }
+    table { border-collapse: collapse; width:720px; margin-bottom:20px; background:white; box-shadow:0 1px 3px rgba(0,0,0,.08) }
+    th, td { padding:10px 12px; border:1px solid #e3e3e3; text-align:left }
+    th { background:#fafafa; font-weight:600 }
+    td.num { text-align:right; font-family: monospace }
+    .note { color:#555; font-size:13px }
+  </style>
+</head>
+<body>
+  <h1>Benchmark Summary (Visual)</h1>
+  <p class="note">Her tablo: Method | Mean (ms) | Times Faster (fastest vs this). Değerler örnek amaçlıdır.</p>
+
+  <h2>Lock karşılaştırması</h2>
+  <table>
+    <thead>
+      <tr><th>Method</th><th>Mean (ms)</th><th>Times Faster</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Chd: Basic Lock (10ms work)</td><td class="num">17.22</td><td class="num">1.00x</td></tr>
+      <tr><td>RedLock: Basic Lock (10ms work)</td><td class="num">17.35</td><td class="num">1.01x</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Idempotency karşılaştırması</h2>
+  <table>
+    <thead>
+      <tr><th>Method</th><th>Mean (ms)</th><th>Times Faster</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>RedLock: Idempotency (Manual Redis Checks)</td><td class="num">17.25</td><td class="num">1.00x</td></tr>
+      <tr><td>Chd: Idempotency (Built-in, Automatic)</td><td class="num">17.29</td><td class="num">1.00x</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Saga karşılaştırması</h2>
+  <table>
+    <thead>
+      <tr><th>Method</th><th>Mean (ms)</th><th>Times Faster</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Chd: Saga (Redis Persistence + Auto Rollback)</td><td class="num">50.28</td><td class="num">1.00x</td></tr>
+      <tr><td>MediatR: Saga (Manual Redis Persistence)</td><td class="num">52.58</td><td class="num">1.05x</td></tr>
+    </tbody>
+  </table>
+
+  <p class="note">Dosyayı açmak için projenizdeki `Chd.Coordination.Benchmark/benchmark-summary.html` dosyasını tarayıcıda açın.</p>
+</body>
+</html>
