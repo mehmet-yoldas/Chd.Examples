@@ -4,6 +4,20 @@
     <Project Path="Chd.Mapping.Bechmark/Chd.Mapping.Bechmark.csproj" />
     <Project Path="Chd.UnitTest/Chd.UnitTest.csproj" Id="741e37d0-5efe-45f5-af42-70c8d99ce324" />
   </Folder>
+  <Folder Name="/ChdAutoUIDemo/">
+    <Project Path="Chd.Pos.Api/Chd.Pos.Api.csproj" />
+    <Project Path="Chd.Pos.Core/Chd.Pos.Core.csproj" />
+  </Folder>
+  <Folder Name="/ChdAutoUIDemo/Web/">
+    <Project Path="Chd.Pos.AutoUI.Web/chd.pos.autoui.web.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+    <Project Path="Chd.Pos.Web/chd.pos.web.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+  </Folder>
   <Folder Name="/RealWorldScenarios/">
     <Project Path="Chd.Coordination.Examples/Chd.Coordination.Examples.csproj" />
   </Folder>
