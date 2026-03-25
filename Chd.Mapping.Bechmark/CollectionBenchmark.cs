@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
+// using AutoMapper.Extensions.Microsoft.DependencyInjection; // not used to avoid ambiguity
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using Chd.Mapping.Bechmark;
@@ -8,8 +10,8 @@ using System.Collections.Generic;
 [Orderer(BenchmarkDotNet.Order.SummaryOrderPolicy.FastestToSlowest)]
 public class CollectionBenchmark
 {
-    private List<OrderDto> _dtos;
-    private IMapper _mapper;
+    private List<OrderDto> _dtos = new List<OrderDto>();
+    private IMapper _mapper = null!;
 
     private const int Count = 20;
 
@@ -30,16 +32,15 @@ public class CollectionBenchmark
             });
         }
 
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<OrderDto, OrderEntity>()
+        var services = new ServiceCollection();
+        services.AddAutoMapper(cfg => cfg.CreateMap<OrderDto, OrderEntity>()
                 .ForMember(d => d.NetTotal,
                     o => o.MapFrom(s => s.Price * (s.Tax + 100) / 100 - s.Discount))
                 .ForMember(d => d.StatusText,
-                    o => o.MapFrom(s => s.IsActive ? "Active" : "Passive"));
-        });
+                    o => o.MapFrom(s => s.IsActive ? "Active" : "Passive")));
 
-        _mapper = config.CreateMapper();
+        var provider = services.BuildServiceProvider();
+        _mapper = provider.GetRequiredService<IMapper>();
     }
 
     // 🚀 CHD – Source Generated

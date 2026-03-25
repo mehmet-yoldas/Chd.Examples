@@ -7,9 +7,9 @@
         public decimal Tax { get; set; }
         public decimal Discount { get; set; }
         public decimal NetTotal { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string StatusText { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Surname { get; set; } = string.Empty;
+        public string StatusText { get; set; } = string.Empty;
         public bool IsActive { get; set; }
     }
 }

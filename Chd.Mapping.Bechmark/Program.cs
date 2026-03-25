@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using Chd.Mapping.Bechmark;
@@ -7,8 +8,8 @@ using Chd.Mapping.Bechmark;
 [Orderer(BenchmarkDotNet.Order.SummaryOrderPolicy.FastestToSlowest)]
 public class MappingBenchmark
 {
-    private OrderDto _dto;
-    private IMapper _mapper;
+    private OrderDto _dto = new OrderDto();
+    private IMapper _mapper = null!;
 
     public class OrderProfile : Profile
     {
@@ -34,12 +35,11 @@ public class MappingBenchmark
             IsActive = true
         };
 
-        var config = new AutoMapper.MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<OrderProfile>();
-        });
 
-        _mapper = config.CreateMapper();
+        var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
+        services.AddAutoMapper(cfg => cfg.AddProfile<OrderProfile>());
+        var provider = services.BuildServiceProvider();
+        _mapper = provider.GetRequiredService<AutoMapper.IMapper>();
     }
 
     [Benchmark(Baseline = true)]

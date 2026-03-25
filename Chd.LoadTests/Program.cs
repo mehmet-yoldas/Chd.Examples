@@ -114,7 +114,7 @@ public class Program
         var scenario = Scenario.Create("distributed_lock_test", async context =>
         {
             var coordinator = serviceProvider.GetRequiredService<ICoordinator>();
-            var resourceId = $"resource:{context.ScenarioInfo.ThreadNumber}";
+            var resourceId = $"resource:{context.ScenarioInfo.InstanceNumber}";
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             try
@@ -167,7 +167,7 @@ public class Program
         var scenario = Scenario.Create("idempotency_test", async context =>
         {
             var coordinator = serviceProvider.GetRequiredService<ICoordinator>();
-            var operationId = $"payment:{context.ScenarioInfo.ThreadNumber}";
+            var operationId = $"payment:{context.ScenarioInfo.InstanceNumber}";
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             try
@@ -219,7 +219,7 @@ public class Program
         var scenario = Scenario.Create("saga_test", async context =>
         {
             var coordinator = serviceProvider.GetRequiredService<ICoordinator>();
-            var sagaId = $"order:{context.ScenarioInfo.ThreadNumber}";
+            var sagaId = $"order:{context.ScenarioInfo.InstanceNumber}";
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             try
@@ -280,7 +280,7 @@ public class Program
         var lockScenario = Scenario.Create("mixed_lock", async context =>
         {
             var coordinator = serviceProvider.GetRequiredService<ICoordinator>();
-            var resourceId = $"resource:{context.ScenarioInfo.ThreadNumber}";
+            var resourceId = $"resource:{context.ScenarioInfo.InstanceNumber}";
 
             try
             {
@@ -302,7 +302,7 @@ public class Program
         var idempotencyScenario = Scenario.Create("mixed_idempotency", async context =>
         {
             var coordinator = serviceProvider.GetRequiredService<ICoordinator>();
-            var operationId = $"payment:{context.ScenarioInfo.ThreadNumber}";
+            var operationId = $"payment:{context.ScenarioInfo.InstanceNumber}";
 
             try
             {
@@ -324,7 +324,7 @@ public class Program
         var sagaScenario = Scenario.Create("mixed_saga", async context =>
         {
             var coordinator = serviceProvider.GetRequiredService<ICoordinator>();
-            var sagaId = $"order:{context.ScenarioInfo.ThreadNumber}";
+            var sagaId = $"order:{context.ScenarioInfo.InstanceNumber}";
 
             try
             {
