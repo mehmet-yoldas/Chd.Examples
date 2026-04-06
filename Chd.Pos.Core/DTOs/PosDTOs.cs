@@ -3,6 +3,9 @@ using Chd.AutoUI.Attributes;
 namespace Chd.Pos.Core.DTOs;
 
 [AutoCRUD(Title = "Products", Icon = "shopping-bag", Route = "/products", Description = "Manage your product inventory")]
+[CreatePermission("Admin", "Manager")]
+[UpdatePermission("Admin", "Editor")]
+[DeletePermission("Admin")]
 public class ProductDto
 {
     [GridColumn(Order = 1, Width = 80, Sortable = false)]
@@ -93,6 +96,43 @@ public class ProductDto
 
     [FormField(Label = "Manufacturing Date", Type = FieldType.DateTime, Order = 18)]
     public DateTime? ManufacturingDate { get; set; }
+
+    // RICH TEXT EDITOR
+    [GridColumn(Order = 20, Width = 300)]
+    [FormField(Label = "Long Description", Type = FieldType.RichTextEditor, Order = 19, EditorConfig = "basic")]
+    public string? LongDescription { get; set; }
+
+    // TAG INPUT (freeform tags)
+    [FormField(Label = "Label Tags", Type = FieldType.TagInput, Order = 20, AllowCustomTags = true, TagSuggestions = new[] { "New", "Featured", "Sale" })]
+    public string? LabelTags { get; set; }
+
+    // IMAGE PREVIEW (file with preview)
+    [GridColumn(Order = 21, Width = 200)]
+    [FormField(Label = "Gallery Image", Type = FieldType.ImagePreview, Order = 21, Accept = "image/*", Multiple = false, ImageMaxWidth = 2048, ImageMaxHeight = 1536)]
+    public string? GalleryImageUrl { get; set; }
+
+    // DATE RANGE PICKER
+    [FormField(Label = "Promotion Range", Type = FieldType.DateRangePicker, Order = 22, IsRange = true)]
+    public string? PromotionRange { get; set; }
+
+    // COLOR PICKER
+    [GridColumn(Order = 22, Width = 120)]
+    [FormField(Label = "Display Color", Type = FieldType.ColorPicker, Order = 23, ColorFormat = "hex")]
+    public string? DisplayColor { get; set; }
+
+    // AUTOCOMPLETE (remote search)
+    [GridColumn(Order = 23, Width = 150)]
+    [FormField(Label = "Related Product", Type = FieldType.Autocomplete, Order = 24, AutocompleteEndpoint = "/api/products/search", AutocompleteMinChars = 2)]
+    public int? RelatedProductId2 { get; set; }
+
+    // TREE SELECT
+    [GridColumn(Order = 24, Width = 150)]
+    [FormField(Label = "Category Tree", Type = FieldType.TreeSelect, Order = 25, TreeEntity = "categories")]
+    public int? CategoryTreeId2 { get; set; }
+
+    // STEPPER (multi-step grouping placeholder)
+    [FormField(Label = "Configuration Steps", Type = FieldType.Stepper, Order = 26)]
+    public string? ConfigurationSteps { get; set; }
 }
 
 [AutoCRUD(Title = "Categories", Icon = "folder", Route = "/categories")]

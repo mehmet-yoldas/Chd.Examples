@@ -9,7 +9,7 @@
     <Project Path="Chd.Pos.Core/Chd.Pos.Core.csproj" />
   </Folder>
   <Folder Name="/ChdAutoUIDemo/Web/">
-    <Project Path="Chd.Pos.AutoUI.Web/chd.pos.autoui.web.esproj">
+    <Project Path="Chd.Pos.Web.Local.Npm/chd.pos.autoui.local.web.esproj">
       <Build />
       <Deploy />
     </Project>

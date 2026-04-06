@@ -1,0 +1,52 @@
+{
+    "name": "chd-pos-web-local-npm",
+    "version": "1.0.0",
+    "description": "CHD POS Web örnek uygulaması (npm tabanlı)",
+    "main": "src/index.tsx",
+    "proxy": "http://localhost:5218",
+    "scripts": {
+        "start": "react-scripts start",
+        "dev": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "dependencies": {
+        "@mehmetyoldas/chd-auto-ui-react": "file:../chd-auto-ui-react/mehmetyoldas-chd-auto-ui-react-1.0.5.tgz",
+        "@types/node": "^20.0.0",
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0",
+        "ajv": "^8.18.0",
+        "axios": "^1.13.6",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "react-scripts": "5.0.1",
+        "typescript": "^4.9.5"
+    },
+    "overrides": {
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "react-select": {
+            "react": "^18.0.0",
+            "react-dom": "^18.0.0"
+        }
+    },
+    "resolutions": {
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "**/react": "^18.3.1",
+        "**/react-dom": "^18.3.1"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}

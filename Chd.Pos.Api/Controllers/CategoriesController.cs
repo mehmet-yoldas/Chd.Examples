@@ -112,4 +112,43 @@ public class CategoriesController : ControllerBase
 
         return NoContent();
     }
+
+    // Returns hierarchical tree of categories
+    [HttpGet("tree")]
+    public async Task<ActionResult<IEnumerable<TreeNode>>> GetTree()
+    {
+        // Load raw items and normalize parent ids to avoid self-references or invalid parents
+        var raw = await _context.Categories
+            .Where(c => !c.IsDeleted)
+            .Select(c => new { c.Id, c.Name, ParentId = c.ParentCategoryId })
+            .ToListAsync();
+
+        var items = raw
+            .Select(i => new { i.Id, i.Name, ParentId = (i.ParentId.HasValue && i.ParentId.Value != i.Id) ? i.ParentId : (int?)null })
+            .ToList();
+
+        var lookup = items.ToDictionary(i => i.Id, i => new TreeNode { Id = i.Id, Label = i.Name });
+
+        foreach (var it in items)
+        {
+            if (it.ParentId.HasValue && lookup.ContainsKey(it.ParentId.Value))
+            {
+                // avoid adding a node as a child of itself
+                if (it.ParentId.Value != it.Id)
+                {
+                    lookup[it.ParentId.Value].Children.Add(lookup[it.Id]);
+                }
+            }
+        }
+
+        var roots = lookup.Values.Where(n => !items.Any(i => i.Id == n.Id && i.ParentId.HasValue)).ToList();
+        return Ok(roots);
+    }
+
+    public class TreeNode
+    {
+        public int Id { get; set; }
+        public string Label { get; set; } = string.Empty;
+        public List<TreeNode> Children { get; set; } = new();
+    }
 }

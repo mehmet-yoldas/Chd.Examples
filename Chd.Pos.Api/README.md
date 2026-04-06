@@ -1,216 +1,252 @@
-# Chd.Pos - Point of Sale System
+﻿# Chd.Pos.Api – Point of Sale Demo
 
-**Metadata-Driven POS Demo Application**
+A real-world demo showing [Chd.AutoUI](https://www.nuget.org/packages/Chd.AutoUI), [Chd.AutoUI.EF](https://www.nuget.org/packages/Chd.AutoUI.EF), and [@mehmetyoldas/chd-auto-ui-react](https://www.npmjs.com/package/@mehmetyoldas/chd-auto-ui-react) working together in a complete application.
 
-Chd.Pos, Chd.AutoUI framework'ünün gücünü gösteren örnek bir Point of Sale (POS) uygulamasıdır. Sadece C# attribute'ları kullanarak tam fonksiyonel bir CRUD arayüzü oluşturur.
+---
 
-## 🎯 Özellikler
+## 📝 Table of Contents
 
-- ✅ **Ürün Yönetimi**: Stok takibi, fiyatlandırma, kategorilendirme
-- ✅ **Kategori Yönetimi**: Ürün kategorileri
-- ✅ **Müşteri Yönetimi**: Müşteri bilgileri ve bakiye takibi
-- ✅ **Satış İşlemleri**: Faturalama ve satış kalemleri
-- ✅ **Tedarikçi Yönetimi**: Tedarikçi bilgileri
-- ✅ **Stok Hareketleri**: Giriş/çıkış kayıtları
-- ✅ **Otomatik UI**: Metadata-driven React frontend
-- ✅ **REST API**: Swagger ile dokümante edilmiş
-- ✅ **PostgreSQL**: Docker ile kolay kurulum
+- [About](#about)
+- [What Is Included](#what-is-included)
+- [Project Structure](#project-structure)
+- [Requirements](#requirements)
+- [Quick Start](#quick-start)
+  - [1. Start PostgreSQL](#1-start-postgresql)
+  - [2. Run the API](#2-run-the-api)
+  - [3. Start the Frontend](#3-start-the-frontend)
+- [Authentication Setup](#authentication-setup)
+  - [IUserTokenProvider Implementation](#iusertokenprovider-implementation)
+  - [Demo Credentials](#demo-credentials)
+- [Program.cs Walkthrough](#programcs-walkthrough)
+- [Permission Management Example](#permission-management-example)
+- [API Endpoints](#api-endpoints)
+- [Configuration](#configuration)
+- [Technologies](#technologies)
+- [Related Projects](#related-projects)
 
-## 🏗️ Proje Yapısı
+---
+
+## About
+
+Chd.Pos is a Point of Sale demo built with the CHD AutoUI framework. The domain is intentionally kept simple — the goal is to show the minimum wiring required to get metadata-driven CRUD working end-to-end with JWT authentication and role-based permissions. It is not a production POS system.
+
+---
+
+## 📦 What Is Included
+
+- Product, category, customer, and supplier management
+- Sales and sale items (invoice lines)
+- Stock movement tracking
+- JWT-based authentication via `IUserTokenProvider`
+- Metadata and identity endpoints auto-registered by `Chd.AutoUI`
+- Generic repository pattern via `Chd.AutoUI.EF`
+- Role-based permissions demonstrated on all entities
+- PostgreSQL with EF Core migrations
+- Swagger for API exploration
+- Serilog for structured logging
+
+---
+
+## 🏗️ Project Structure
 
 ```
 Chd.Pos/
-├── Chd.Pos.Core/              # Domain Layer
-│   ├── Entities/              # Entity sınıfları
-│   │   └── PosEntities.cs     # Product, Category, Sale, Customer...
-│   └── DTOs/                  # Data Transfer Objects
-│       └── PosDTOs.cs         # ProductDto, CategoryDto... (with attributes)
-├── Chd.Pos.Api/               # API Layer
-│   ├── Controllers/           # REST Controllers
-│   │   ├── MetadataController.cs
-│   │   ├── ProductsController.cs
-│   │   ├── CategoriesController.cs
-│   │   └── ...
-│   ├── Data/                  # Database Context
-│   │   └── PosDbContext.cs
-│   ├── Migrations/            # EF Core Migrations
-│   └── Program.cs             # API Configuration
-└── Chd.Pos.Web/               # Frontend Layer
-    ├── src/
-    │   ├── components/        # React Components
-    │   │   ├── DynamicGrid.tsx
-    │   │   └── DynamicForm.tsx
-    │   ├── services/          # API Services
-    │   └── types/             # TypeScript Types
-    └── package.json
+├── Chd.Pos.Core/
+│   ├── Entities/
+│   │   └── PosEntities.cs        # Product, Category, Customer, Sale, SaleItem...
+│   └── DTOs/
+│       └── PosDTOs.cs            # ProductDto, CategoryDto... with AutoUI attributes
+└── Chd.Pos.Api/
+    ├── Controllers/
+    │   ├── ProductsController.cs
+    │   ├── CategoriesController.cs
+    │   ├── CustomersController.cs
+    │   ├── SalesController.cs
+    │   └── ...
+    ├── Data/
+    │   └── PosDbContext.cs
+    ├── Migrations/
+    ├── UserRepoesitory.cs        # IUserTokenProvider — demo authentication
+    ├── Program.cs
+    └── appsettings.json
 ```
 
-## 📦 Kurulum
+---
 
-### Gereksinimler
+## ⚙️ Requirements
 
-- .NET 8.0 SDK
-- Node.js 18+
-- Docker Desktop (PostgreSQL için)
-- PostgreSQL (Docker veya local)
+- .NET 8 SDK
+- Node.js 18+ (for the React frontend)
+- Docker Desktop (for PostgreSQL)
 
-### 1. PostgreSQL'i Docker ile Başlatın
+---
 
-```bash
+## 🚀 Quick Start
+
+### 1. Start PostgreSQL
+
+```powershell
 cd Library.Tests/Docker-Compose/postgres
 docker-compose up -d
 ```
 
-### 2. Backend Kurulumu
+### 2. Run the API
 
-```bash
-# Migration'ları uygula
+```powershell
 cd Chd.Pos.Api
 dotnet ef database update
-
-# API'yi başlat
 dotnet run
 ```
 
-API şu adreste çalışacak: `http://localhost:5218`  
-Swagger: `http://localhost:5218/swagger`
+- API: `http://localhost:5218`
+- Swagger: `http://localhost:5218/swagger`
 
-### 3. Frontend Kurulumu
+### 3. Start the Frontend
 
-```bash
-cd Chd.Pos.Web
+```powershell
+cd Chd.Pos.Web.Local.Npm
 npm install
-npm run dev
+npm start
 ```
 
-Frontend şu adreste çalışacak: `http://localhost:3000`
+Frontend: `http://localhost:3000`
 
-## 🚀 Kullanım
+---
 
-### 1. Web Arayüzü
+## 🔐 Authentication Setup
 
-Tarayıcıda `http://localhost:3000` adresine gidin:
+### IUserTokenProvider Implementation
 
-1. **Products**: Ürün ekleme, düzenleme, silme
-2. **Categories**: Kategori yönetimi
-3. **Customers**: Müşteri bilgileri
-4. **Suppliers**: Tedarikçi yönetimi
-
-### 2. API Kullanımı
-
-#### Metadata Endpoint
-
-```bash
-# Tüm entity metadata'larını getir
-curl http://localhost:5218/api/metadata
-
-# Belirli bir entity metadata'sı
-curl http://localhost:5218/api/metadata/ProductDto
-```
-
-#### Products CRUD
-
-```bash
-# Tüm ürünleri getir
-curl http://localhost:5218/api/products
-
-# Tek ürün getir
-curl http://localhost:5218/api/products/1
-
-# Yeni ürün ekle
-curl -X POST http://localhost:5218/api/products \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "iPhone 15",
-    "price": 999.99,
-    "cost": 800.00,
-    "stock": 50,
-    "categoryId": 1
-  }'
-
-# Ürün güncelle
-curl -X PUT http://localhost:5218/api/products/1 \
-  -H "Content-Type: application/json" \
-  -d '{
-    "id": 1,
-    "name": "iPhone 15 Pro",
-    "price": 1199.99,
-    "cost": 900.00,
-    "stock": 45,
-    "categoryId": 1
-  }'
-
-# Ürün sil
-curl -X DELETE http://localhost:5218/api/products/1
-```
-
-## 📊 Database Schema
-
-```sql
--- Products
-CREATE TABLE "Products" (
-    "Id" integer PRIMARY KEY,
-    "Name" varchar(200),
-    "Barcode" varchar(100),
-    "Price" decimal(18,2),
-    "Cost" decimal(18,2),
-    "Stock" integer,
-    "MinStock" integer,
-    "CategoryId" integer,
-    "CreatedDate" timestamp,
-    "IsActive" boolean
-);
-
--- Categories
-CREATE TABLE "Categories" (
-    "Id" integer PRIMARY KEY,
-    "Name" varchar(100),
-    "Description" text,
-    "CreatedDate" timestamp
-);
-
--- Customers
-CREATE TABLE "Customers" (
-    "Id" integer PRIMARY KEY,
-    "Name" varchar(200),
-    "Email" varchar(100),
-    "Phone" varchar(20),
-    "Address" text,
-    "Balance" decimal(18,2),
-    "CreatedDate" timestamp
-);
-
--- Sales
-CREATE TABLE "Sales" (
-    "Id" integer PRIMARY KEY,
-    "CustomerId" integer,
-    "TotalAmount" decimal(18,2),
-    "DiscountAmount" decimal(18,2),
-    "TaxAmount" decimal(18,2),
-    "NetAmount" decimal(18,2),
-    "PaymentMethod" varchar(50),
-    "SaleDate" timestamp,
-    "CreatedDate" timestamp
-);
-
--- SaleItems
-CREATE TABLE "SaleItems" (
-    "Id" integer PRIMARY KEY,
-    "SaleId" integer,
-    "ProductId" integer,
-    "Quantity" integer,
-    "UnitPrice" decimal(18,2),
-    "DiscountAmount" decimal(18,2),
-    "TotalAmount" decimal(18,2)
-);
-```
-
-## 🎨 DTO Örnekleri
-
-### ProductDto
+The demo uses a minimal `UserRepoesitory` class that implements `IUserTokenProvider`. This is the only thing you need to implement for authentication — the login endpoint, JWT signing, and token issuance are all handled internally by `UseAutoUI`.
 
 ```csharp
-[AutoCRUD(Title = "Products", Icon = "📦", Route = "/products", Description = "Product management")]
+using Chd.AutoUI.Extensions;
+using Chd.Security.DTOs;
+using Chd.Security.Models;
+
+// In a real application, inject your DbContext and use proper password hashing.
+// This demo uses a fixed password for simplicity.
+class UserRepoesitory : IUserTokenProvider
+{
+    public Task<UserDTO?> GetUserTokenInfoAsync(UserModel model)
+    {
+        if (model.Password != "test")
+            return Task.FromResult<UserDTO?>(null);
+
+        var roles = model.UserName switch
+        {
+            "Admin"   => new List<string> { "User", "Admin" },
+            "Manager" => new List<string> { "User", "Manager" },
+            "User"    => new List<string> { "User" },
+            _         => new List<string>()
+        };
+
+        if (!roles.Any())
+            return Task.FromResult<UserDTO?>(null);
+
+        return Task.FromResult<UserDTO?>(new UserDTO
+        {
+            UserName = model.UserName,
+            Roles = roles,
+            ExpirationSecond = 50000000
+        });
+    }
+}
+```
+
+**In a real application you would:**
+1. Inject `DbContext` (or a user service) via the constructor
+2. Look up the user by username
+3. Verify the password against a stored hash (bcrypt, PBKDF2, etc.)
+4. Load roles from the database
+5. Return `null` for any authentication failure
+
+### Demo Credentials
+
+| Username | Password | Roles |
+|---|---|---|
+| Admin | test | User, Admin |
+| Manager | test | User, Manager |
+| User | test | User |
+
+---
+
+## 🔧 Program.cs Walkthrough
+
+```csharp
+using Chd.AutoUI.Extensions;
+using Chd.Pos.Api.Data;
+using Chd.Pos.Core.DTOs;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Structured logging with Serilog
+var logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("C:\\Temp\\logs\\application-log.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
+// Database
+builder.Services.AddDbContext<PosDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Generic repository — one line for all entities
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Allow requests from the React dev server
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        policy.WithOrigins("http://localhost:3000", "http://localhost:5218")
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+});
+
+// UseAutoUI<UserRepoesitory> does all of this in one call:
+//   1. Registers UserRepoesitory as IUserTokenProvider in DI
+//   2. Configures JWT middleware (UseJwtTokenAuthorization)
+//   3. Calls UseAuthentication() and UseAuthorization()
+//   4. Registers GET  /api/metadata
+//   5. Registers GET  /api/metadata/{entityName}
+//   6. Registers GET  /api/me
+//   7. Registers POST /api/account/login
+var app = builder.UseAutoUI<UserRepoesitory>(typeof(ProductDto).Assembly);
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+app.MapControllers();
+app.Run();
+```
+
+> **Important:** Do not call `app.UseAuthentication()` or `app.UseAuthorization()` yourself after `UseAutoUI` — the method already does it internally in the correct middleware order.
+
+---
+
+## 🔐 Permission Management Example
+
+Permissions are defined in the DTO via attributes. The role strings you use here must match the roles returned by your `IUserTokenProvider`.
+
+```csharp
+// Chd.Pos.Core/DTOs/PosDTOs.cs
+
+[AutoCRUD(Title = "Products", Icon = "shopping-bag", Route = "/products")]
+[CreatePermission("Admin", "Manager")]   // Admins and Managers can create
+[UpdatePermission("Admin", "Manager")]   // Admins and Managers can edit
+[DeletePermission("Admin")]              // Only Admins can delete
 public class ProductDto
 {
     [GridColumn(Order = 1, Width = 80)]
@@ -221,39 +257,75 @@ public class ProductDto
     [FormField(Label = "Product Name", Type = FieldType.Text, Required = true, MaxLength = 200, Order = 1)]
     public string Name { get; set; } = string.Empty;
 
-    [GridColumn(Order = 3, Width = 150)]
-    [FormField(Label = "Barcode", Type = FieldType.Text, MaxLength = 100, Order = 2)]
-    public string? Barcode { get; set; }
-
-    [GridColumn(Order = 4, Width = 120, Format = "currency")]
-    [FormField(Label = "Price", Type = FieldType.Number, Required = true, Order = 3)]
+    [GridColumn(Order = 3, Width = 150, Format = "currency")]
+    [FormField(Label = "Price", Type = FieldType.Number, Required = true, Order = 2)]
     public decimal Price { get; set; }
-
-    [GridColumn(Order = 5, Width = 100)]
-    [FormField(Label = "Stock", Type = FieldType.Number, Required = true, Order = 4)]
-    public int Stock { get; set; }
-
-    [GridColumn(Order = 6, Width = 150)]
-    [FormField(Label = "Category", Type = FieldType.Select, Order = 5)]
-    public int? CategoryId { get; set; }
-
-    [GridColumn(Order = 7, Width = 150)]
-    public string? CategoryName { get; set; }
-
-    [GridColumn(Order = 8, Width = 100)]
-    [FormField(Label = "Active", Type = FieldType.Checkbox, Order = 6)]
-    public bool IsActive { get; set; }
 }
 ```
 
-## 🔧 Yapılandırma
+When a user logged in as `Manager` views the Products page:
+- ✅ They can see the list
+- ✅ They can create new products
+- ✅ They can edit existing products
+- ❌ Delete button is hidden (requires `Admin`)
 
-### appsettings.json
+The React component (`DynamicGrid`) reads the `permissions` field from the metadata and compares it against the current user's roles from `/api/me`. No extra React code is needed.
+
+---
+
+## 🌐 API Endpoints
+
+### Auto-registered by Chd.AutoUI
+
+```bash
+# Get metadata for all entities
+GET /api/metadata
+
+# Get metadata for a specific entity
+GET /api/metadata/ProductDto
+
+# Current user info (requires JWT)
+GET /api/me
+
+# Get a JWT token
+POST /api/account/login
+Content-Type: application/json
+{"UserName": "Admin", "Password": "test"}
+```
+
+### CRUD Controllers (example — Products)
+
+```bash
+# List all
+GET /api/products
+
+# Get one
+GET /api/products/1
+
+# Create
+POST /api/products
+Content-Type: application/json
+{"name": "iPhone 15", "price": 999.99, "stock": 50, "categoryId": 1}
+
+# Update
+PUT /api/products/1
+Content-Type: application/json
+{"id": 1, "name": "iPhone 15 Pro", "price": 1199.99, "stock": 45, "categoryId": 1}
+
+# Delete
+DELETE /api/products/1
+```
+
+The same pattern applies to `/api/categories`, `/api/customers`, `/api/suppliers`, `/api/sales`, and `/api/saleitems`.
+
+---
+
+## ⚙️ Configuration
 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Port=9999;Database=chd_pos;Username=PostgresDB_user;Password=PostgresDB_2022.*!"
+    "DefaultConnection": "Host=localhost;Port=9999;Database=chd_pos;Username=your_user;Password=your_password"
   },
   "Logging": {
     "LogLevel": {
@@ -264,167 +336,45 @@ public class ProductDto
 }
 ```
 
-### Program.cs
-
-```csharp
-var builder = WebApplication.CreateBuilder(args);
-
-// DbContext
-builder.Services.AddDbContext<PosDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-// Generic Repository
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
-// Controllers
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// CORS
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
-});
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseCors();
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
-app.Run();
-```
-
-## 🧪 Test Senaryoları
-
-### 1. Ürün Ekleme
-
-1. Web arayüzünde "Products" menüsüne tıklayın
-2. "Create" butonuna tıklayın
-3. Formu doldurun:
-   - Name: "Samsung Galaxy S24"
-   - Barcode: "8806094123456"
-   - Price: 899.99
-   - Cost: 750.00
-   - Stock: 30
-   - Category: "Electronics"
-4. "Save" butonuna tıklayın
-5. Grid'de yeni ürünü görün
-
-### 2. Kategori Yönetimi
+Do not commit real credentials. Use environment variables or .NET user secrets in development:
 
 ```bash
-# Kategori ekle
-curl -X POST http://localhost:5218/api/categories \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Electronics", "description": "Electronic devices"}'
-
-# Kategorileri listele
-curl http://localhost:5218/api/categories
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=...;..."
 ```
 
-### 3. Satış Oluşturma
+---
 
-```bash
-# Satış ekle
-curl -X POST http://localhost:5218/api/sales \
-  -H "Content-Type: application/json" \
-  -d '{
-    "customerId": 1,
-    "items": [
-      {"productId": 1, "quantity": 2, "unitPrice": 999.99},
-      {"productId": 2, "quantity": 1, "unitPrice": 49.99}
-    ],
-    "paymentMethod": "Credit Card"
-  }'
-```
+## 🛠️ Technologies
 
-## 📈 Performans
+| Layer | Technology |
+|---|---|
+| Runtime | .NET 8 |
+| Web framework | ASP.NET Core Web API |
+| ORM | Entity Framework Core 8 |
+| Database | PostgreSQL (Npgsql) |
+| Authentication | JWT (via Chd.Security) |
+| UI metadata | Chd.AutoUI |
+| Data access | Chd.AutoUI.EF |
+| Logging | Serilog |
+| Frontend | React 18, TypeScript, chd-auto-ui-react |
+| API docs | Swagger / OpenAPI |
 
-- **API Response Time**: < 100ms (ortalama)
-- **Database Queries**: Optimized with EF Core
-- **Frontend Rendering**: Virtual scrolling for large datasets
-- **Concurrent Users**: 100+ (tested)
+---
 
-## 🛠️ Teknolojiler
+## 🔗 Related Projects
 
-### Backend
-- .NET 8.0
-- ASP.NET Core Web API
-- Entity Framework Core 8.0.11
-- PostgreSQL (Npgsql 8.0.11)
-- Chd.AutoUI Framework
-- Chd.AutoUI.EF (Generic Repository)
+| Project | Description |
+|---|---|
+| [Chd.AutoUI](https://www.nuget.org/packages/Chd.AutoUI) | NuGet package providing metadata generation and authentication |
+| [Chd.AutoUI.EF](https://www.nuget.org/packages/Chd.AutoUI.EF) | Generic EF Core repository used in the controllers |
+| [chd-auto-ui-react](https://www.npmjs.com/package/@mehmetyoldas/chd-auto-ui-react) | React package that renders the UI from the metadata |
+| [All Demo Projects](https://github.com/mehmet-yoldas/Chd.Examples) | All CHD examples, benchmarks and test projects |
 
-### Frontend
-- React 18.2.0
-- TypeScript 5.3.3
-- Vite 5.1.5
-- Axios 1.6.7
-- React Router 6.22.0
+---
 
-### DevOps
-- Docker (PostgreSQL container)
-- Swagger/OpenAPI
+## 📄 License
 
-## 🐛 Sorun Giderme
+MIT
 
-### Migration Hatası
 
-```bash
-dotnet ef database drop -f
-dotnet ef migrations remove
-dotnet ef migrations add InitialCreate
-dotnet ef database update
-```
 
-### Port Çakışması
-
-```bash
-# API portunuzu değiştirin
-# launchSettings.json -> applicationUrl
-
-# Frontend portunuzu değiştirin
-# vite.config.ts -> server.port
-```
-
-### CORS Hatası
-
-Program.cs'de CORS yapılandırmasını kontrol edin:
-```csharp
-app.UseCors();
-```
-
-## 📝 Lisans
-
-MIT License
-
-## 🤝 Katkıda Bulunma
-
-1. Fork yapın
-2. Feature branch oluşturun
-3. Commit edin
-4. Push edin
-5. Pull Request açın
-
-## 🔗 İlgili Projeler
-
-- [Chd.AutoUI](../Chd.AutoUI) - Metadata Framework
-- [Chd.AutoUI.EF](../Chd.AutoUI.EF) - Generic Repository
-- [Chd.StockTracking](../Chd.StockTracking.Api) - Stock Tracking Demo
-
-## 📞 İletişim
-
-**CHD Framework Team**
