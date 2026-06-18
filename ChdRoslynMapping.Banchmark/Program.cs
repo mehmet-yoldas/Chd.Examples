@@ -39,6 +39,7 @@ namespace ChdRoslynMappingTest
     [MemoryDiagnoser]
     public class MappingBenchmark
     {
+
         private OrderDto[] _orders;
         private IMapper _mapper;
 
