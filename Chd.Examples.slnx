@@ -18,6 +18,9 @@
       <Deploy />
     </Project>
   </Folder>
+  <Folder Name="/ChdRoslynMappingDemo/">
+    <Project Path="ChdRoslynMapping.Test/ChdRoslynMapping.Test.csproj" Id="1381cb32-a7f3-4f68-91bb-480d12927149" />
+  </Folder>
   <Folder Name="/RealWorldScenarios/">
     <Project Path="Chd.Coordination.Examples/Chd.Coordination.Examples.csproj" />
   </Folder>
