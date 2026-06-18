@@ -19,6 +19,7 @@
     </Project>
   </Folder>
   <Folder Name="/ChdRoslynMappingDemo/">
+    <Project Path="ChdRoslynMapping.Banchmark/ChdRoslynMapping.Banchmark.csproj" Id="443eeced-989c-430d-9816-298643812aca" />
     <Project Path="ChdRoslynMapping.Test/ChdRoslynMapping.Test.csproj" Id="1381cb32-a7f3-4f68-91bb-480d12927149" />
   </Folder>
   <Folder Name="/RealWorldScenarios/">
