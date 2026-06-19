@@ -29,6 +29,7 @@ namespace ChdRoslynMappingTest
         {
             var dto = new OrderDto { Price = 100, Tax = 18, Discount = 2 };
             OrderEntity entity = dto;  // DTO → Entity with calculation!
+            dto = entity;  // Entity → DTO with calculation!
             Console.WriteLine($"NetTotal: {entity.NetTotal}");  // Output: 116
         }
     }
