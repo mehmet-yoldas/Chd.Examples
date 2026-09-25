@@ -34,5 +34,12 @@
     <File Path="DEVTO_ARTICLE.tr.md" />
     <File Path="IMPLEMENTATION_SUMMARY.md" />
   </Folder>
+  <Folder Name="/WorkflowDemo/">
+    <Project Path="Workflow/chd-workflow-sample-ui/chd-workflow-sample-ui.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+    <Project Path="Workflow/Chd.Workflow.Sample/Chd.Workflow.Sample.csproj" />
+  </Folder>
   <Project Path="Chd.LoadTests/Chd.LoadTests.csproj" />
 </Solution>

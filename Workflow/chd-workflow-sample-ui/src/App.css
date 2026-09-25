@@ -1,0 +1,167 @@
+:root {
+  color-scheme: dark;
+  --bg: #0c0d14;
+  --panel: #141522;
+  --panel-2: #1b1c2c;
+  --line: #2d2f42;
+  --text: #f4f4f8;
+  --muted: #b4b7c8;
+  --accent: #8b5cf6;
+  --accent-2: #a78bfa;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-size: 18px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html.is-chrome {
+  zoom: 1.12;
+}
+
+html, body, #root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+button, select, input {
+  font: inherit;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.app-header select,
+.app-header button {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.app-header button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 650;
+}
+
+.app-main {
+  flex: 1;
+  min-height: 0;
+}
+
+.app-runner {
+  width: min(880px, calc(100% - 40px));
+  margin: 28px auto;
+  display: grid;
+  gap: 20px;
+}
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.scenario-card {
+  text-align: left;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.scenario-card.active {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.scenario-card strong {
+  display: block;
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+
+.scenario-card span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.panel label {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.panel select,
+.panel button {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.panel button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.panel button.primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #fca5a5;
+  font-size: 15px;
+}
+
+@media (max-width: 820px) {
+  .scenario-grid { grid-template-columns: 1fr; }
+}
