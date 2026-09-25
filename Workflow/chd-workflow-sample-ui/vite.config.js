@@ -10,7 +10,7 @@ const workflowReactEntry = resolve(workflowReact, 'src/index.ts')
 const useLocalWorkflowReact = existsSync(workflowReactEntry)
 
 if (useLocalWorkflowReact) {
-  console.log('Using local @quality-patterns/chd-workflow-react:', workflowReactEntry)
+  console.log('Using local qp-workflow-react:', workflowReactEntry)
 } else {
   console.log('Local chd-workflow-react not found; using the npm package')
 }
@@ -19,7 +19,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: useLocalWorkflowReact
-      ? { '@quality-patterns/chd-workflow-react': workflowReactEntry }
+      ? { 'qp-workflow-react': workflowReactEntry }
       : {},
   },
   server: {
@@ -34,6 +34,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: useLocalWorkflowReact
-    ? { exclude: ['@quality-patterns/chd-workflow-react'] }
+    ? { exclude: ['qp-workflow-react'] }
     : {},
 })

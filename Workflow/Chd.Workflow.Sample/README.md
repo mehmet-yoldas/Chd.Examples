@@ -1,13 +1,13 @@
 # Chd.Workflow sample
 
-Host application for [Chd.Workflow](https://www.nuget.org/packages/Chd.Workflow) and [@quality-patterns/chd-workflow-react](https://www.npmjs.com/package/@quality-patterns/chd-workflow-react).
+Host application for [Chd.Workflow](https://www.nuget.org/packages/Chd.Workflow) and [qp-workflow-react](https://www.npmjs.com/package/qp-workflow-react).
 
 ## Architecture
 
 | Piece | Role | Start here |
 |---|---|---|
 | [Chd.Workflow](https://www.nuget.org/packages/Chd.Workflow) | .NET engine. Definitions, instances, actions, guards, and the REST API. | [NuGet](https://www.nuget.org/packages/Chd.Workflow) · [source](https://github.com/mehmet-yoldas/library-core) |
-| [@quality-patterns/chd-workflow-react](https://www.npmjs.com/package/@quality-patterns/chd-workflow-react) | React designer, inbox, and runner. It does not store workflow state. | [npm](https://www.npmjs.com/package/@quality-patterns/chd-workflow-react) · [source](https://github.com/mehmet-yoldas/library-core) |
+| [qp-workflow-react](https://www.npmjs.com/package/qp-workflow-react) | React designer, inbox, and runner. It does not store workflow state. | [npm](https://www.npmjs.com/package/qp-workflow-react) · [source](https://github.com/mehmet-yoldas/library-core) |
 | [Chd.Examples](https://github.com/mehmet-yoldas/Chd.Examples) | This repository. The host that wires the engine to the React UI. | [API](https://github.com/mehmet-yoldas/Chd.Examples/tree/master/Workflow/Chd.Workflow.Sample) · [UI](https://github.com/mehmet-yoldas/Chd.Examples/tree/master/Workflow/chd-workflow-sample-ui) |
 
 Chd.Workflow persists definitions and instances. The React package renders the designer, inbox, and runner. This sample hosts both.
@@ -37,7 +37,15 @@ On startup the API connects to PostgreSQL. If that server is down, it starts `po
 | Swagger | same host | http://localhost:5088/swagger |
 | UI | [Workflow/chd-workflow-sample-ui](https://github.com/mehmet-yoldas/Chd.Examples/tree/master/Workflow/chd-workflow-sample-ui) | http://localhost:5174 |
 
-The UI depends on `@quality-patterns/chd-workflow-react` from npm. If a local `library-core/chd-workflow-react` checkout sits next to this repo, Vite uses that source instead. A GitHub clone uses the published npm package.
+The UI depends on `qp-workflow-react` from npm. If a local `library-core/chd-workflow-react` checkout sits next to this repo, Vite uses that source instead. A GitHub clone uses the published npm package.
+
+```bash
+npm install qp-workflow-react
+```
+
+```js
+import { TreeDesigner, WorkflowInbox, WorkflowRunner } from 'qp-workflow-react'
+```
 
 ## Run
 

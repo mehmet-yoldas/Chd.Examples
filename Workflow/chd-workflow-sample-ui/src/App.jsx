@@ -4,7 +4,7 @@ import {
   TreeDesigner,
   WorkflowRunner,
   WorkflowInbox,
-} from '@quality-patterns/chd-workflow-react'
+} from 'qp-workflow-react'
 import './App.css'
 
 const API = import.meta.env.VITE_API_URL || '/api/workflow'

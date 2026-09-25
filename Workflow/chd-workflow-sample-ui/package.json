@@ -8,7 +8,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@quality-patterns/chd-workflow-react": "^1.0.6",
+    "qp-workflow-react": "^1.0.14",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
