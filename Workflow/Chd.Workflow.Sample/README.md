@@ -25,7 +25,9 @@ Chd.Workflow persists definitions and instances. The React package renders the d
 - Purchase request: amounts under 10,000 go to a manager. 10,000 and above go to finance.
 - Support ticket: high priority goes to a supervisor. Everything else goes to operations.
 
-The UI uses `TreeDesigner`, `WorkflowInbox`, and `WorkflowRunner`. The API uses `builder.AddWorkflow`, in-memory storage, `[WorkflowAction]` handlers, and `Node.AllowedRoles`. Identity in this demo is `X-Workflow-User` and `X-Workflow-Roles`. A real host should read the user from JWT claims.
+The UI uses `TreeDesigner`, `WorkflowInbox`, and `WorkflowRunner`. The API uses `builder.AddWorkflow`, PostgreSQL, `[WorkflowAction]` handlers, and `Node.AllowedRoles`. Identity in this demo is `X-Workflow-User` and `X-Workflow-Roles`. A real host should read the user from JWT claims.
+
+On startup the API connects to PostgreSQL. If that server is down, it starts `postgres:16` with Docker and creates `chd_workflow_sample` when the database is missing. Chd.Workflow then creates tables that are not there yet. If Docker is not installed, or Docker Desktop is not running, the process stops and tells you to install or start it.
 
 ## Projects
 

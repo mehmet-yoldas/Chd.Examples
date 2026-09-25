@@ -1,16 +1,32 @@
 using Chd.Workflow.Extensions;
 using Chd.Workflow.Interfaces;
+using Chd.Workflow.Sample.Infrastructure;
 using Chd.Workflow.Sample.Participants;
 using Chd.Workflow.Sample.Workflows;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("PostgreSQL")
+    ?? throw new InvalidOperationException("ConnectionStrings:PostgreSQL is missing.");
+
+await SampleDatabaseBootstrap.EnsureAsync(connectionString, builder.Environment.ContentRootPath);
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Chd.Workflow.Sample",
+        Version = "v1"
+    });
+});
 
 builder.AddWorkflow<SampleParticipantDirectory>(o =>
 {
-    o.DatabaseProvider = "InMemory";
+    o.DatabaseProvider = "PostgreSQL";
+    o.ConnectionString = connectionString;
+    o.AutoMigrate = true;
+    o.WorkflowDatabaseSchema = "Workflow";
     o.RoutePrefix = "api/workflow";
 });
 
@@ -32,6 +48,9 @@ app.Use(async (context, next) =>
     }
     catch (Exception ex)
     {
+        if (context.Request.Path.StartsWithSegments("/swagger"))
+            throw;
+
         context.Response.StatusCode = 500;
         context.Response.ContentType = "application/json";
         await context.Response.WriteAsJsonAsync(new { error = ex.Message });
@@ -40,9 +59,14 @@ app.Use(async (context, next) =>
 
 app.UseCors();
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Chd.Workflow.Sample v1");
+    options.RoutePrefix = "swagger";
+});
 
 await app.UseChdWorkflowAsync();
+await SampleDatabaseBootstrap.EnsureCurrentColumnsAsync(connectionString);
 
 using (var scope = app.Services.CreateScope())
 {
@@ -58,6 +82,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-app.MapGet("/swagger-ui", () => Results.Redirect("/swagger"));
+app.MapGet("/swagger-ui", () => Results.Redirect("/swagger/index.html"))
+    .ExcludeFromDescription();
 
 app.Run();
